@@ -1,7 +1,5 @@
-#include <iostream>
-#include <iterator>
-#include <map>
 #include "Logger.hpp"
+#include <vtol_tiltwing/mcl/Supervisor.hpp>
 
 
 int main() {
@@ -14,4 +12,6 @@ int main() {
     //     logger.log("Testing " + itr->second + "severity.", itr->first);
     // }
     logger.log("Logger test successfully finished.", Log::Severity::debug);
+    Supervisor supervisor = Supervisor(&logger);
+    supervisor.run();
 }
