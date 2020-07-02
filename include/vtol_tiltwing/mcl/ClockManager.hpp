@@ -1,7 +1,7 @@
 #include <chrono>
 
-#ifndef VTOL_TILTWING_CLOCKMANAGER_HPP_
-#define VTOL_TILTWING_CLOCKMANAGER_HPP_
+#ifndef VTOL_TILTWING_CLOCKMANAGER_HPP
+#define VTOL_TILTWING_CLOCKMANAGER_HPP
 
 using namespace std::chrono;
 
@@ -19,7 +19,5 @@ public:
     void initialize(int mil_per_cycle, int min_mil_per_cycle);
     void execute();
 };
-
-
 
 #endif //VTOL_TILTWING_CLOCKMANAGER_HPP

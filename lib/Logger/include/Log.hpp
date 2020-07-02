@@ -1,5 +1,5 @@
-#ifndef VTOL_TILTWING_LOG_HPP_
-#define VTOL_TILTWING_LOG_HPP_
+#ifndef VTOL_TILTWING_LOG_HPP
+#define VTOL_TILTWING_LOG_HPP
 
 #include <iostream>
 #include <string>
@@ -32,4 +32,4 @@ public:
     std::string get_time(std::chrono::time_point<T> time);
 };
 
-#endif //VTOL_TILTWING_LOG_HPP_
+#endif //VTOL_TILTWING_LOG_HPP

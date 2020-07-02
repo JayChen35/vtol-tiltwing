@@ -3,33 +3,27 @@
 
 #include <vtol_tiltwing/mcl/FieldBase.hpp>
 #include <string>
-
-using namespace std;
+#include <utility>
 
 template <class T>
 class Field : public virtual FieldBase {
 private:
-    const string _id;
+    const std::string _id;
     T _val;
     float _time;
-
 public:
-    Field(const string &id)
-            : _id(id),
+    Field(std::string id)
+            : _id(std::move(id)),
               _time(-1) {}
 
-
-    Field(const string &id, T val)
-            : _id(id),
+    Field(std::string id, T val)  // Instead of const std::string &id, passing by value and using std::move()
+            : _id(std::move(id)),
               _val(val),
               _time(-1) {}
 
-    string getId(){ return _id; }
-
+    std::string getId(){ return _id; }
     T getVal(){ return _val; }
-
     float getTime() { return _time; }
-
     void setVal(T val){ _val = val; }
 };
 

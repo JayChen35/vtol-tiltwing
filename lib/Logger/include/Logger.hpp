@@ -1,5 +1,5 @@
-#ifndef VTOL_TILTWING_LOGGER_HPP_
-#define VTOL_TILTWING_LOGGER_HPP_
+#ifndef VTOL_TILTWING_LOGGER_HPP
+#define VTOL_TILTWING_LOGGER_HPP
 
 #include <iostream>
 #include <string>
@@ -14,4 +14,4 @@ public:
     void log(const std::string& msg, Log::Severity s);
 };
 
-#endif // VTOL_TILTWING_LOGGER_HPP_
+#endif // VTOL_TILTWING_LOGGER_HPP
