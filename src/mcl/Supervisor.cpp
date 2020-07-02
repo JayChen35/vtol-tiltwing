@@ -2,18 +2,18 @@
 #include <vtol_tiltwing/mcl/ClockManager.hpp>
 
 Supervisor::Supervisor(Logger* logger){
-    this->_logger = logger;
-    this->clockManager = ClockManager();
+    _logger = logger;
+    clockManager = ClockManager();
 }
 
 void Supervisor::initialize() {
     i = 10;
-    this->clockManager.initialize(1000);
+    clockManager.initialize(50, 10);
 }
 
 void Supervisor::execute() {
-    this->_logger->log("Running MCL on infinite loop.", Log::Severity::debug);
-    this->clockManager.execute();
+    _logger->log("Running MCL on infinite loop.", Log::Severity::debug);
+    clockManager.execute();
 }
 
 void Supervisor::run(){

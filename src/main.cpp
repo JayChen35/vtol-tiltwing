@@ -7,6 +7,7 @@ int main() {
     Logger logger = Logger();
     logger.log("Logger successfully initialized.", Log::Severity::info);
     Supervisor supervisor = Supervisor(&logger);
+    supervisor.initialize();
     logger.log("Supervisor successfully initialized.", Log::Severity::debug);
     supervisor.run();
 }
