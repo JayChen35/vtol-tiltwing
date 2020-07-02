@@ -1,7 +1,7 @@
 #include <chrono>
 
-#ifndef VTOL_TILTWING_CLOCKMANAGER_HPP
-#define VTOL_TILTWING_CLOCKMANAGER_HPP
+#ifndef VTOL_TILTWING_CLOCKMANAGER_HPP_
+#define VTOL_TILTWING_CLOCKMANAGER_HPP_
 
 using namespace std::chrono;
 

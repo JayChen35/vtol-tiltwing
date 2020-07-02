@@ -1,7 +1,3 @@
-//
-// Created by Srikar on 7/1/2020.
-//
-
 #include <vtol_tiltwing/mcl/ClockManager.hpp>
 
 ClockManager::ClockManager() {

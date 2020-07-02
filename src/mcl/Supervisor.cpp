@@ -12,7 +12,7 @@ void Supervisor::initialize() {
 }
 
 void Supervisor::execute() {
-    this->_logger->log("Running MCL", Log::Severity::debug);
+    this->_logger->log("Running MCL on infinite loop.", Log::Severity::debug);
     this->clockManager.execute();
 }
 

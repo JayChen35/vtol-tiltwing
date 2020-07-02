@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include <ctime>
 #include <chrono>
 #include "Log.hpp"
@@ -76,6 +78,8 @@ std::string Log::get_time(std::chrono::time_point<T> time) {
     std::chrono::seconds s = std::chrono::duration_cast<std::chrono::seconds>(since_epoch);
     since_epoch -= s;
     std::chrono::milliseconds milli = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch);
-    std::string formatted_time = std::string(time_buffer) + ":" + std::to_string(milli.count());
+    std::stringstream milliseconds;
+    milliseconds << std::setw(3) << std::setfill('0') << milli.count(); // Fill with leading zeros
+    std::string formatted_time = std::string(time_buffer) + ":" + milliseconds.str();
     return formatted_time;
 }

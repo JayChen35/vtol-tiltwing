@@ -1,8 +1,8 @@
 #include <Logger.hpp>
 #include <vtol_tiltwing/mcl/ClockManager.hpp>
 
-#ifndef VTOL_TILTWING_SUPERVISOR_HPP
-#define VTOL_TILTWING_SUPERVISOR_HPP
+#ifndef VTOL_TILTWING_SUPERVISOR_HPP_
+#define VTOL_TILTWING_SUPERVISOR_HPP_
 
 class Supervisor {
 private:
