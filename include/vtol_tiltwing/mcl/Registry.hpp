@@ -1,0 +1,10 @@
+#ifndef VTOL_TILTWING_REGISTRY_HPP
+#define VTOL_TILTWING_REGISTRY_HPP
+
+
+class Registry {
+
+};
+
+
+#endif //VTOL_TILTWING_REGISTRY_HPP

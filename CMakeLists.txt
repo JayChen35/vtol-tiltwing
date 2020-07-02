@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCE_FILES src/main.cpp
         lib/Logger/src/Log.cpp
         lib/Logger/src/Logger.cpp
-        src/mcl/Supervisor.cpp include/vtol_tiltwing/mcl/Supervisor.hpp include/vtol_tiltwing/mcl/ClockManager.hpp src/mcl/ClockManager.cpp)
+        src/mcl/Supervisor.cpp include/vtol_tiltwing/mcl/Supervisor.hpp include/vtol_tiltwing/mcl/ClockManager.hpp src/mcl/ClockManager.cpp src/mcl/Registry.cpp include/vtol_tiltwing/mcl/Registry.hpp src/mcl/Flag.cpp include/vtol_tiltwing/mcl/Flag.hpp include/vtol_tiltwing/mcl/Field.hpp include/vtol_tiltwing/mcl/FieldBase.hpp)
 
 include_directories(include)
 include_directories(lib/Logger/include)
