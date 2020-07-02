@@ -29,7 +29,7 @@ public:
     template <typename T>
     T get(string path){
         cout << "Getting path: " + path << endl;
-        assert(statefields.find(path) == statefields.end());
+        assert(statefields.find(path) != statefields.end()); // ITS FAILING HERE! IT SHOULD BE PASSING THIS ASSERT!
 //        assert(("Path not found", statefields.find(path) != statefields.end()));
 //        assert(("Path found", statefields.find(path) == statefields.end()));
         cout << "Passed assert" << endl;
@@ -53,8 +53,7 @@ public:
 
     template <typename T>
     void add(string path, T initial){
-//        assert(statefields.find(path) != statefields.end() && "Path already exists");
-        cout << 1 / 0 << endl;
+        assert(statefields.find(path) == statefields.end() && "Path already exists");
 //        Field<T> field = Field<T>(path, initial);
 //        statefields[path] = &field;
         cout << "Adding path: " + path << endl;
