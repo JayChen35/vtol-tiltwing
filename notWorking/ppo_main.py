@@ -31,7 +31,7 @@ ENV_NAME = "LunarLanderContinuous-v2"
 ACT_LOW_BOUND         = -1  # Low bound of the action space
 ACT_HIGH_BOUND        = 1
 NUM_EPISODES          = 750
-PPO_STEPS             = 250 # 500  # Episode length/timestep
+PPO_STEPS             = 4000 # 500  # Episode length/timestep
 RENDER                = False
 EVAL_WHILE_TRAIN      = True
 EVAL_EPISODE_INTERVAL = 5
@@ -44,10 +44,10 @@ GAMMA            = 0.99  # Discount factor
 GAE_LAMBDA       = 0.95  # GAE smoothing factor
 MINI_BATCH_SIZE  = 20
 CLIP_EPSILON     = 0.2  # Clippling parameter
-PPO_EPOCHS       = 4  # How much to train on a single batch of experience (PPO is on-policy)
+PPO_EPOCHS       = 80  # How much to train on a single batch of experience (PPO is on-policy)
 REWARD_THRESHOLD = 90
 CRITIC_DISCOUNT  = 0.5  # 0.5  # c1 in the paper (Value Function Coefficient)
-ENTROPY_BETA     = 0.01 # 0.01  # c2 in the paper
+ENTROPY_BETA     = 0.05 # 0.01  # c2 in the paper
 STD_INITIAL      = 0.5  # Wide initial standard deviation to help exploration
 STD_DECAY        = 0.95
 STD_MINIMUM      = 0.05
@@ -129,6 +129,7 @@ def compute_gae(next_value: tf.Tensor, rewards: list, masks: list, values: list)
     for step in reversed(range(len(rewards))):
         delta = rewards[step] + GAMMA * values[step+1] * masks[step] - values[step]
         gae_value = delta + GAMMA * GAE_LAMBDA * masks[step] * gae_value
+        print(gae_value)
         # GAE_lambda is a smoothing parameter to reduce variance in training
         returns.insert(0, gae_value + values[step])
     return returns
@@ -160,8 +161,9 @@ def ppo_minibatch_iterator(states: list, actions: list, log_probs: list, returns
     # Returns a Generator object (volatile Iterator) of size MINI_BATCH_SIZE to update pi (the policy)
     assert len(states) == PPO_STEPS
     # Normalize the advantages and returns to have more reasonable losses (prevent NaN)
-    advantages = tf.linalg.normalize(advantages)[0]
-    returns = tf.linalg.normalize(returns)[0]
+    # NOTE: Uncomment this if it doesn't work
+    # advantages = tf.linalg.normalize(advantages)[0]
+    # returns = tf.linalg.normalize(returns)[0]
     for _ in range(PPO_STEPS // MINI_BATCH_SIZE):
         rand_ids = np.random.randint(0, PPO_STEPS, MINI_BATCH_SIZE)
         for i in rand_ids:
@@ -230,6 +232,8 @@ if __name__ == "__main__":
     test_rewards = []
     early_stop = False
     episode = 0
+    num_games, running_reward, running_length = 0, 0, 0
+    LOG_INTERVAL = 1
     while episode < NUM_EPISODES and not early_stop:
         states    = []
         actions   = []
@@ -257,8 +261,16 @@ if __name__ == "__main__":
             states.append(state)
             actions.append(action)
             state = next_state
+
+            running_reward += reward
+            running_length += 1
             if terminal:
                 state = np.reshape(env.reset(), [1, observation_space])  # Reset the environment
+                num_games += 1
+                if num_games % LOG_INTERVAL == 0:
+                    print("Game: {}, Avg reward: {}, Avg length: {}".format(num_games, running_reward // LOG_INTERVAL, running_length // LOG_INTERVAL))
+                    running_reward = 0
+                    running_length = 0
 
         _, next_value = model(next_state)
         returns = compute_gae(next_value, rewards, masks, values)
@@ -270,6 +282,7 @@ if __name__ == "__main__":
         episode += 1
         model.update_sigma()  # Decay the STD every episode
         # Quickly test if the network has reached the threshold reward
+        test_rewards = [-float("inf")]
         if EVAL_WHILE_TRAIN and episode % EVAL_EPISODE_INTERVAL == 0:
             test_reward = np.mean([eval_current_policy(model) for _ in range(5)])
             if test_reward >= REWARD_THRESHOLD: early_stop = True
