@@ -9,16 +9,18 @@ LogSeverity Logger::printSeverity = LogSeverity::DEBUG;
 
 Supervisor::Supervisor(){
     clockManager = ClockManager();
+    registry = new Registry();
 }
 
 void Supervisor::initialize() {
     Logger::log("Initializing supervisor", LogSeverity::DEBUG);
-    clockManager.initialize(50, 10);
+    clockManager.initialize();
 }
 
 void Supervisor::execute() {
     Logger::log("Running supervisor", LogSeverity::DEBUG);
     clockManager.execute();
+
     // Read Tasks
     // IMUReadTask();
     // RCReadTask();
@@ -28,10 +30,12 @@ void Supervisor::execute() {
 
     // Actuate Tasks
     // MotorActuateTask();
-    // ServoActuateTask();
 
-    // int num_loops = registry->get<int>("core.num_loops");
-    // Logger::log("Currently at loop count: " + num_loops, LogSeverity::DEBUG);
+    // Update Loop variable in registry
+    int num_loops;
+    registry->get("core.num_loops", num_loops);
+    registry->put("core.num_loops", num_loops + 1);
+    Logger::log("Currently at loop count: " + to_string(num_loops), LogSeverity::DEBUG);    
 }
 
 void Supervisor::run(){

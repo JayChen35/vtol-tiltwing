@@ -1,15 +1,16 @@
 #include <vtol_tiltwing/ClockManager.hpp>
 #include <Logger.hpp>
+#include <constants.hpp>
 #include "iostream"
 
 ClockManager::ClockManager() {
     mcl_has_started = false;
     last_mcl_start_time = steady_clock::now();
+    this->mil_per_cycle = MIL_PER_CYCLE;
+    this->min_mil_per_cycle = MIN_MIL_PER_CYCLE;
 }
 
-void ClockManager::initialize(int mil_per_cycle, int min_mil_per_cycle){
-    this->mil_per_cycle = mil_per_cycle;
-    this->min_mil_per_cycle = min_mil_per_cycle;
+void ClockManager::initialize(){
     mcl_initialize_time = steady_clock::now();
     num_loops = 0;
     Logger::log("Initialized clock manager", LogSeverity::DEBUG);

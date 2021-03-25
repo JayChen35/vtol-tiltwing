@@ -14,7 +14,7 @@ private:
 
     string get(string path){
         assert(statefields.find(path) != statefields.end());
-        Logger::log("Passed assert", LogSeverity::DEBUG);
+        // Logger::log("Passed assert", LogSeverity::DEBUG);
         string var = statefields[path];
         return var;
     }
@@ -22,23 +22,23 @@ private:
 public:
     Registry();
 
-    void get(string path, string& out){
+    void get(string path, string &out){
         out = get(path);
     }
 
-    void get(string path, int& out){
+    void get(string path, int &out){
         out = stoi(get(path));
     }
 
-    void get(string path, float& out){
+    void get(string path, float &out){
         out = stof(get(path));
     }
 
-    void get(string path, long& out){
+    void get(string path, long &out){
         out = stol(get(path));
     }
 
-    void get(string path, bool& out){
+    void get(string path, bool &out){
         string temp = get(path);
         if(temp == "0"){ out = false; }
         else{ out = true; }

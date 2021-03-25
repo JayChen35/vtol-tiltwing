@@ -16,7 +16,7 @@ private:
 
 public:
     ClockManager();
-    void initialize(int mil_per_cycle, int min_mil_per_cycle);
+    void initialize();
     void execute();
 };
 
