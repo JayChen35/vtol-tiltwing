@@ -8,4 +8,8 @@ Registry::Registry() {
     put("rc_input.pitch", (float)0.0); // Pitch (-100, 100)
     put("rc_input.roll", (float)0.0); // Roll (-100, 100)
     put("rc_input.yaw", (float)0.0); // Yaw (-100, 100)
+
+    put("imu.pitch", (float)0.0);
+    put("imu.roll", (float)0.0);
+    put("imu.yaw", (float)0.0);
 }

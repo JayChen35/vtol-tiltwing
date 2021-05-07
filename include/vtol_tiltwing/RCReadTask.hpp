@@ -5,11 +5,6 @@
 
 class RCReadTask {
 private:
-    float throttleInput;
-    float rollInput;
-    float pitchInput;
-    float yawInput;
-
     int readChannel(int channel);
 
 public:

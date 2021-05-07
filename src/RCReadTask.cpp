@@ -1,20 +1,14 @@
 #include <vtol_tiltwing/RCReadTask.hpp>
 #include <constants.hpp>
 #include <helpers.hpp>
+#include "Arduino.h"
 
 
 RCReadTask::RCReadTask(){
-    throttleInput = 0;
-    rollInput = 0;
-    pitchInput = 0;
-    yawInput = 0;
-    #ifndef DESKTOP
-        #include "Arduino.h"
-        pinMode(THROTTLE_PIN, INPUT);
-        pinMode(PITCH_PIN, INPUT);
-        pinMode(ROLL_PIN, INPUT);
-        pinMode(YAW_PIN, INPUT);
-    #endif
+    pinMode(THROTTLE_PIN, INPUT);
+    pinMode(PITCH_PIN, INPUT);
+    pinMode(ROLL_PIN, INPUT);
+    pinMode(YAW_PIN, INPUT);
 }
 
 int RCReadTask::readChannel(int pin){
@@ -26,13 +20,14 @@ int RCReadTask::readChannel(int pin){
 }
 
 void RCReadTask::execute(Registry *registry){
-    #ifdef DESKTOP
-        // TODO: Figure out how to do this
-    #else
-        #include "Arduino.h"
-        float val = (float)readChannel(THROTTLE_PIN);
-        throttleInput = map(val, 1000.0, 2000.0, 0.0, 100.0);
-    #endif
+    float throttleRead = (float)readChannel(THROTTLE_PIN);
+    float pitchRead = (float)readChannel(PITCH_PIN);
+    float rollRead = (float)readChannel(ROLL_PIN);
+    float yawRead = (float)readChannel(YAW_PIN);
+    float throttleInput = map_value(throttleRead, 1000.0, 2000.0, 0.0, 100.0);
+    float pitchInput = map_value(pitchRead, 1000.0, 2000.0, 0.0, 100.0);
+    float rollInput = map_value(rollRead, 1000.0, 2000.0, 0.0, 100.0);
+    float yawInput = map_value(yawRead, 1000.0, 2000.0, 0.0, 100.0);
 
     registry->put("rc_input.throttle", throttleInput);
     registry->put("rc_input.pitch", pitchInput);

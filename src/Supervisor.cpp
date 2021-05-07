@@ -1,5 +1,9 @@
 #include <vtol_tiltwing/Supervisor.hpp>
 #include <vtol_tiltwing/ClockManager.hpp>
+#include <vtol_tiltwing/IMUReadTask.hpp>
+#include <vtol_tiltwing/RCReadTask.hpp>
+#include <vtol_tiltwing/PIDControlTask.hpp>
+#include <vtol_tiltwing/MotorActuateTask.hpp>
 #include "Logger.hpp"
 
 #include <string>
@@ -8,8 +12,13 @@
 LogSeverity Logger::printSeverity = LogSeverity::DEBUG;
 
 Supervisor::Supervisor(){
-    clockManager = ClockManager();
     registry = new Registry();
+    flag = new Flag();
+    clockManager = ClockManager();
+    imuReadTask = IMUReadTask();
+    rcReadTask = RCReadTask();
+    pidControlTask = PIDControlTask();
+    motorActuateTask = MotorActuateTask();
 }
 
 void Supervisor::initialize() {
@@ -22,14 +31,15 @@ void Supervisor::execute() {
     clockManager.execute();
 
     // Read Tasks
-    // IMUReadTask();
-    // RCReadTask();
+    imuReadTask.execute(registry);
+    rcReadTask.execute(registry);
 
     // Control Tasks
-    // PIDControlTask();
+    pidControlTask.execute(registry, flag);
 
     // Actuate Tasks
-    // MotorActuateTask();
+    motorActuateTask.execute(flag);
+    // XBee ActuateTask();
 
     // Update Loop variable in registry
     int num_loops;
